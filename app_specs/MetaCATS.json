@@ -58,7 +58,8 @@
             "enum": [
                 "auto",
                 "groups",
-                "files"
+                "files",
+                "list"
             ]
         },
         {
@@ -151,6 +152,13 @@
                     "type": "string"
                 }
             ]
+        },
+        {
+            "id": "feature_list",
+            "type": "string",
+            "allow_multiple": true,
+            "required": 0,
+            "default": null           
         }
     ]
 }

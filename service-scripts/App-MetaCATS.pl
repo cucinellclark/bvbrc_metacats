@@ -129,6 +129,25 @@ sub process_metacats
         for my $id (@ids) {
             print F ">$id\n" . uc($seq->{$id}) . "\n";
         }
+        close F;
+        close G;
+    } elsif ($input_type eq "list") {
+        # Put the sequences in the ofile from the patric ids, and get the metadata file from the JSON object.
+        open (F, ">$ofile") or die "Couldnot open $ofile";
+        $metaDataFile = "$work_dir/metadata.tsv";
+        open(G, ">$metaDataFile") or die "Could not open $metaDataFile";
+        print(G "Seq_ID\t$prefix\n";
+        my $seq = "";
+        if ($alphabet eq "na") {
+            $seq = $data_api_module->retrieve_nucleotide_feature_sequence(\@{$params->{feature_list}});
+        } else {
+            $seq = $data_api_module->retrieve_protein_feature_sequence(\@{$params->{feature_list}});
+        }
+        for my $id (@{$params->{feature_list}}) {
+            print F ">$id\n" . uc($seq->{$id}) . "\n";
+        }
+        close F;
+        close G;
     } else {
         die("Unrecognized input type.");
     }
