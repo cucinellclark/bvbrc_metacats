@@ -138,12 +138,13 @@ sub process_metacats
         open(G, ">$metaDataFile") or die "Could not open $metaDataFile";
         print G "Seq_ID\t$prefix\n";
         my $seq = "";
+        my @ids = @{$params->{feature_list}};
         if ($alphabet eq "na") {
-            $seq = $data_api_module->retrieve_nucleotide_feature_sequence(\@{$params->{feature_list}});
+            $seq = $data_api_module->retrieve_nucleotide_feature_sequence(\@ids);
         } else {
-            $seq = $data_api_module->retrieve_protein_feature_sequence(\@{$params->{feature_list}});
+            $seq = $data_api_module->retrieve_protein_feature_sequence(\@ids);
         }
-        for my $id (@{$params->{feature_list}}) {
+        for my $id (@ids) {
             print F ">$id\n" . uc($seq->{$id}) . "\n";
         }
         close F;
@@ -151,7 +152,7 @@ sub process_metacats
     } else {
         die("Unrecognized input type.");
     }
-    if (($input_type eq "groups") or ($input_type eq "auto")) {
+    if (($input_type eq "groups") or ($input_type eq "auto") or ($input_type eq "list")) {
         # Align the sequences.
         my @mafft_cmd = ("mafft", "--auto", "--preservecase", $ofile);
         my $string_cmd = join(" ", @mafft_cmd);
