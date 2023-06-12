@@ -136,7 +136,7 @@ sub process_metacats
         open (F, ">$ofile") or die "Couldnot open $ofile";
         $metaDataFile = "$work_dir/metadata.tsv";
         open(G, ">$metaDataFile") or die "Could not open $metaDataFile";
-        print(G "Seq_ID\t$prefix\n";
+        print G "Seq_ID\t$prefix\n";
         my $seq = "";
         if ($alphabet eq "na") {
             $seq = $data_api_module->retrieve_nucleotide_feature_sequence(\@{$params->{feature_list}});
